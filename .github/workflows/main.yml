@@ -1,0 +1,23 @@
+name: Pylint
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.9"]
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip setuptools
+        pip install graia-saya==0.0.1 graia-boardcast==0.8.11 graia-mirai-application==0.19.2
+    - name: Analysing the code with pylint
+      run: |
+        python3 main.py
